@@ -76,7 +76,7 @@ btnLogOut.onclick = () => {
   window.location.reload()
 }
 async function sendMsg() {
-  if (liff.getContext().type !== "block" && liff.getContext().type !== "external") {
+  if (liff.getContext().type !== "none" && liff.getContext().type !== "external") {
     console.log('hahaha')
     await liff.sendMessages([
       {
