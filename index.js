@@ -26,7 +26,7 @@ const friendShip = document.getElementById('friendShip');
 
 async function main() {
   // Initialize LIFF app)
-  await liff.init({ liffId: '1657827011-oQknL1vl' });
+  await liff.init({ liffId:'1657827011-oQknL1vl' });
   // Try a LIFF function
   switch (liff.getOS()) {
     case 'android':
@@ -35,7 +35,23 @@ async function main() {
     case 'ios':
       body.style.backgroundColor = '#eeeeee';
       break;
-  }getUserProfile()
+  }
+  if (!liff.isInClient()) {
+    if (liff.isLoggedIn()) {
+      btnLogIn.style.display = "none"
+      btnLogOut.style.display = "block"
+      getUserProfile()
+    } else {
+      btnLogIn.style.display = "block"
+      btnLogOut.style.display = "none"
+    }
+  } else {
+    btnSend.style.display = "block"
+    getUserProfile()
+  }
+  if (liff.isInClient() && liff.getOS() === "android") {
+    btnScanCode.style.display = "block"
+  }
 }
 main();
 async function getUserProfile() {
@@ -45,4 +61,33 @@ async function getUserProfile() {
   statusMessage.innerHTML = '<b>statusMessage:</b> ' + profile.statusMessage;
   displayName.innerHTML = '<b>displayName:</b> ' + profile.displayName;
   email.innerHTML = '<b>email:</b> ' + liff.getDecodedIDToken().email;
+}
+btnLogIn.onclick = () => {
+  liff.login()
+}
+
+btnLogOut.onclick = () => {
+  liff.logout()
+  window.location.reload()
+}
+async function sendMsg() {
+  if (liff.getContext().type !== "none" && liff.getContext().type !== "external") {
+    await liff.sendMessages([
+      {
+        "type": "text",
+        "text": "This message was sent by sendMessages()"
+      }
+    ])
+    alert("Message sent")
+  }
+}
+btnSend.onclick = () => {
+  sendMsg()
+}
+async function scanCode() {
+  const result = await liff.scanCode()
+  code.innerHTML = "<b>Code: </b>" + result.value
+}
+btnScanCode.onclick = () => {
+  scanCode()
 }
