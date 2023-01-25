@@ -88,6 +88,7 @@ async function sendMsg() {
   }
 }
 btnSend.onclick = () => {
+  console.log('hahaha1')
   sendMsg()
 }
 async function scanCode() {
