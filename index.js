@@ -36,12 +36,14 @@ async function main() {
       body.style.backgroundColor = '#eeeeee';
       break;
   }
+  btnClose.style.display = "none"
   if (!liff.isInClient()) {
     if (liff.isLoggedIn()) {
       btnShare.style.display = "block"
       btnLogIn.style.display = "none"
       btnLogOut.style.display = "block"
       getUserProfile()
+      getFriendship()
     } else {
       btnSend.style.display = "block"
       btnLogIn.style.display = "block"
@@ -81,7 +83,7 @@ async function sendMsg() {
         "text": "This message was sent by sendMessages()"
       }
     ])
-    liff.closeWindow()
+    alert("Message sent")
   }
 }
 btnSend.onclick = () => {
@@ -111,4 +113,18 @@ async function shareMsg() {
 }
 btnShare.onclick = () => {
   shareMsg()
+}
+async function Close() {
+  liff.closeWindow()
+}
+btnClose.onclick = () => {
+  Close()
+}
+async function getFriendship() {
+  let msg = "Hooray! You and our chatbot are friend."
+  const friend = await liff.getFriendship()
+  if (!friend.friendFlag) {
+     msg = "<a href=\"https://line.me/R/ti/p/@BOT-ID\">Follow our chatbot here!</a>"
+  }
+  friendShip.innerHTML = msg;
 }
