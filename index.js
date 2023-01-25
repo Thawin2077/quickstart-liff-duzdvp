@@ -85,8 +85,7 @@ async function sendMsg() {
       }
     ])
     alert("Message sent")
-  }
-  else { console.log('hello') }
+ }
 }
 btnSend.onclick = () => {
   console.log('hahaha1')
