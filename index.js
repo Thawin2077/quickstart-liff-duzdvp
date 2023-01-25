@@ -52,6 +52,7 @@ async function main() {
   if (liff.isInClient() && liff.getOS() === "android") {
     btnScanCode.style.display = "block"
   }
+  btnOpenWindow.style.display = "block"
 }
 main();
 async function getUserProfile() {
@@ -78,7 +79,7 @@ async function sendMsg() {
         "text": "This message was sent by sendMessages()"
       }
     ])
-    alert("Message sent")
+    liff.closeWindow()
   }
 }
 btnSend.onclick = () => {
@@ -90,4 +91,10 @@ async function scanCode() {
 }
 btnScanCode.onclick = () => {
   scanCode()
+}
+btnOpenWindow.onclick = () => {
+  liff.openWindow({
+    url: window.location.href,
+    external: true
+  })
 }
