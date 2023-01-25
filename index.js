@@ -36,16 +36,16 @@ async function main() {
       body.style.backgroundColor = '#eeeeee';
       break;
   }
-  btnClose.style.display = "none"
   if (!liff.isInClient()) {
     if (liff.isLoggedIn()) {
-      btnShare.style.display = "block"
       btnLogIn.style.display = "none"
       btnLogOut.style.display = "block"
+      btnShare.style.display = "block"
+      btnSend.style.display = "block"
+      btnClose.style.display = "block"
       getUserProfile()
       getFriendship()
     } else {
-      btnSend.style.display = "block"
       btnLogIn.style.display = "block"
       btnLogOut.style.display = "none"
     }
@@ -76,7 +76,8 @@ btnLogOut.onclick = () => {
   window.location.reload()
 }
 async function sendMsg() {
-  if (liff.getContext().type !== "none" && liff.getContext().type !== "external") {
+  if (liff.getContext().type !== "block" && liff.getContext().type !== "external") {
+    console.log('hahaha')
     await liff.sendMessages([
       {
         "type": "text",
