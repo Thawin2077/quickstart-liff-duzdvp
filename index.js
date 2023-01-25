@@ -38,10 +38,12 @@ async function main() {
   }
   if (!liff.isInClient()) {
     if (liff.isLoggedIn()) {
+      btnShare.style.display = "block"
       btnLogIn.style.display = "none"
       btnLogOut.style.display = "block"
       getUserProfile()
     } else {
+      btnSend.style.display = "block"
       btnLogIn.style.display = "block"
       btnLogOut.style.display = "none"
     }
@@ -97,4 +99,16 @@ btnOpenWindow.onclick = () => {
     url: window.location.href,
     external: true
   })
+}
+async function shareMsg() {
+  await liff.shareTargetPicker([
+    {
+      type: "image",
+      originalContentUrl: "https://d.line-scdn.net/stf/line-lp/2016_en_02.jpg",
+      previewImageUrl: "https://d.line-scdn.net/stf/line-lp/2016_en_02.jpg"
+    }
+  ])
+}
+btnShare.onclick = () => {
+  shareMsg()
 }
