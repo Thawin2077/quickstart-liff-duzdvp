@@ -77,7 +77,6 @@ btnLogOut.onclick = () => {
 }
 async function sendMsg() {
   if (liff.getContext().type !== "none" && liff.getContext().type !== "external") {
-    console.log('hahaha')
     await liff.sendMessages([
       {
         "type": "text",
@@ -88,7 +87,6 @@ async function sendMsg() {
  }
 }
 btnSend.onclick = () => {
-  console.log('hahaha1')
   sendMsg()
 }
 async function scanCode() {
@@ -117,7 +115,7 @@ btnShare.onclick = () => {
   shareMsg()
 }
 async function Close() {
-  liff.closeWindow()
+  liff.closeWindow();
 }
 btnClose.onclick = () => {
   Close()
