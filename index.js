@@ -26,7 +26,7 @@ const friendShip = document.getElementById('friendShip');
 
 async function main() {
   // Initialize LIFF app)
-  await liff.init({ liffId:'1657827011-oQknL1vl' });
+  await liff.init({ liffId:'1657827011-3bE2bORz' });
   // Try a LIFF function
   switch (liff.getOS()) {
     case 'android':
@@ -75,8 +75,9 @@ btnLogOut.onclick = () => {
   liff.logout()
   window.location.reload()
 }
-async function sendMsg() {
-  if (liff.getContext().type !== "none" && liff.getContext().type !== "external") {
+async function sendMsg(){
+{
+  //if (liff.getContext().type !== "none" && liff.getContext().type !== "external") {
     await liff.sendMessages([
       {
         "type": "text",
