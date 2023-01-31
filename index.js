@@ -75,20 +75,18 @@ btnLogOut.onclick = () => {
   liff.logout()
   window.location.reload()
 }
-async function sendMsg(){
-{
-  //if (liff.getContext().type !== "none" && liff.getContext().type !== "external") {
-    await liff.sendMessages([
-      {
-        "type": "text",
-        "text": "This message was sent by sendMessages()"
-      }
-    ])
-    alert("Message sent")
- }
+function sendMessageToLine() {
+  liff.sendMessages([{
+    type: 'text',
+    text: 'Hello, this is a message sent from the LIFF app.'
+  }]).then(() => {
+    alert('Message sent!');
+  }).catch((error) => {
+    console.error('Error sending message: ', error);
+  });
 }
 btnSend.onclick = () => {
-  sendMsg()
+  sendMessageToLine()
 }
 async function scanCode() {
   const result = await liff.scanCode()
@@ -115,11 +113,11 @@ async function shareMsg() {
 btnShare.onclick = () => {
   shareMsg()
 }
-async function Close() {
+function closeLiffWindow() {
   liff.closeWindow();
 }
 btnClose.onclick = () => {
-  Close()
+  closeLiffWindow()
 }
 async function getFriendship() {
   let msg = "Hooray! You and our chatbot are friend."
