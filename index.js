@@ -30,40 +30,56 @@ async function authorizeGoogleSheetsAPI() {
 
   // Initialize the API client with your API key and authorization scopes
   await gapi.client.init({
-    apiKey: '85d7378b586689ba93db595ea69d86ec09e5e7e6',
+    apiKey: 'AIzaSyDlyOkQs7Bqh_VyDyT9vDzqz29vla2bPps',
     discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
     scope: 'https://www.googleapis.com/auth/spreadsheets',
+    clientId: '295823614667-gn9e44gskhtu9b340lnlsguv9pv0q998.apps.googleusercontent.com',
   });
-
-  async function writeToGoogleSheet(profile) {
-    // Get the user's information
-    const email = liff.getDecodedIDToken().email;
-    const userId = profile.userId;
-    const pictureUrl = profile.pictureUrl;
-    const displayName = profile.displayName;
-    const statusMessage = profile.statusMessage;
-
-    // Create a new row to add to the sheet
-    const row = [email, userId, pictureUrl, displayName, statusMessage];
-
-    // Add the row to the sheet
-    const spreadsheetId = '1rMYGyKQk1K_7k5sqYnOcWFhDo8QXJoCjRgX81zwroNQ';
-    const range = 'Sheets!A2:E2'; // Replace this with the range of cells where you want to add the row
-    const valueInputOption = 'USER_ENTERED';
-    const resource = { values: [row] };
-    const result = await gapi.client.sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range,
-      valueInputOption,
-      resource,
-    });
-
-    console.log(`${result.updates.updatedCells} cells updated.`);
-  }
 
   // Authorize the user
   const authResult = await gapi.auth2.getAuthInstance().signIn();
   return authResult;
+}
+
+async function writeToGoogleSheet(profile) {
+  // Get the user's information
+  const email = liff.getDecodedIDToken().email;
+  const userId = profile.userId;
+  const pictureUrl = profile.pictureUrl;
+  const displayName = profile.displayName;
+  const statusMessage = profile.statusMessage;
+
+  // Create a new row to add to the sheet
+  const row = [email, userId, pictureUrl, displayName, statusMessage];
+
+  // Add the row to the sheet
+  const spreadsheetId = '1rMYGyKQk1K_7k5sqYnOcWFhDo8QXJoCjRgX81zwroNQ';
+  const range = 'Sheets!A2:E2'; // Replace this with the range of cells where you want to add the row
+  const valueInputOption = 'USER_ENTERED';
+  const resource = { values: [row] };
+  const result = await gapi.client.sheets.spreadsheets.values.append({
+    spreadsheetId,
+    range,
+    valueInputOption,
+    resource,
+  });
+
+  console.log(`${result.updates.updatedCells} cells updated.`);
+}
+
+function handleClientLoad() {
+  gapi.load('client', initClient);
+}
+
+function initClient() {
+  gapi.client.init({
+    apiKey: 'YOUR_API_KEY',
+    clientId: 'YOUR_CLIENT_ID',
+    discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+    scope: 'https://www.googleapis.com/auth/spreadsheets'
+  }).then(function () {
+    // Client initialized, you can now use the Sheets API
+  });
 }
 
 async function main() {
@@ -132,9 +148,20 @@ function sendMessageToLine() {
       console.error('Error sending message: ', error);
     });
 }
-btnSend.onclick = () => {
-  sendMessageToLine();
+btnSend.onclick = async () => {
+  try {
+    const authResult = await authorizeGoogleSheetsAPI();
+    if (authResult) {
+      const profile = await liff.getProfile();
+      await writeToGoogleSheet(profile);
+      alert('Data written to Google Sheets!');
+    }
+  } catch (error) {
+    console.error('Error authorizing Google Sheets API: ', error);
+    alert('Error authorizing Google Sheets API: ' + error);
+  }
 };
+
 async function scanCode() {
   const result = await liff.scanCode();
   code.innerHTML = '<b>Code: </b>' + result.value;
