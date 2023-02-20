@@ -26,13 +26,13 @@ const friendShip = document.getElementById('friendShip');
 
 async function authorizeGoogleSheetsAPI() {
   // Load the API client library
-  await gapi.load('client', {timeout: 3000});
+  await gapi.load('client', { timeout: 3000 });
 
   // Initialize the API client with your API key and authorization scopes
   await gapi.client.init({
     apiKey: '85d7378b586689ba93db595ea69d86ec09e5e7e6',
     discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-    scope: 'https://www.googleapis.com/auth/spreadsheets'
+    scope: 'https://www.googleapis.com/auth/spreadsheets',
   });
 
   async function writeToGoogleSheet(profile) {
@@ -42,38 +42,28 @@ async function authorizeGoogleSheetsAPI() {
     const pictureUrl = profile.pictureUrl;
     const displayName = profile.displayName;
     const statusMessage = profile.statusMessage;
-  
+
     // Create a new row to add to the sheet
     const row = [email, userId, pictureUrl, displayName, statusMessage];
-  
+
     // Add the row to the sheet
     const spreadsheetId = '1rMYGyKQk1K_7k5sqYnOcWFhDo8QXJoCjRgX81zwroNQ';
     const range = 'Sheets!A2:E2'; // Replace this with the range of cells where you want to add the row
     const valueInputOption = 'USER_ENTERED';
-    const resource = {values: [row]};
+    const resource = { values: [row] };
     const result = await gapi.client.sheets.spreadsheets.values.append({
       spreadsheetId,
       range,
       valueInputOption,
       resource,
     });
-  
+
     console.log(`${result.updates.updatedCells} cells updated.`);
   }
 
   // Authorize the user
   const authResult = await gapi.auth2.getAuthInstance().signIn();
   return authResult;
-}
-
-async function getUserProfile() {
-  const profile = await liff.getProfile();
-  pictureUrl.src = profile.pictureUrl;
-  userId.innerHTML = '<b>userId:</b> ' + profile.userId;
-  statusMessage.innerHTML = '<b>statusMessage:</b> ' + profile.statusMessage;
-  displayName.innerHTML = '<b>displayName:</b> ' + profile.displayName;
-  email.innerHTML = '<b>email:</b> ' + liff.getDecodedIDToken().email;
-  await writeToGoogleSheet(profile);
 }
 
 async function main() {
