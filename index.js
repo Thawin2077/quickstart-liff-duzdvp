@@ -33,7 +33,8 @@ async function authorizeGoogleSheetsAPI() {
     apiKey: 'AIzaSyDlyOkQs7Bqh_VyDyT9vDzqz29vla2bPps',
     discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
     scope: 'https://www.googleapis.com/auth/spreadsheets',
-    clientId: '295823614667-gn9e44gskhtu9b340lnlsguv9pv0q998.apps.googleusercontent.com',
+    clientId:
+      '295823614667-gn9e44gskhtu9b340lnlsguv9pv0q998.apps.googleusercontent.com',
   });
 
   // Authorize the user
@@ -72,14 +73,19 @@ function handleClientLoad() {
 }
 
 function initClient() {
-  gapi.client.init({
-    apiKey: 'YOUR_API_KEY',
-    clientId: 'YOUR_CLIENT_ID',
-    discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-    scope: 'https://www.googleapis.com/auth/spreadsheets'
-  }).then(function () {
-    // Client initialized, you can now use the Sheets API
-  });
+  gapi.client
+    .init({
+      apiKey: 'AIzaSyDlyOkQs7Bqh_VyDyT9vDzqz29vla2bPps',
+      clientId:
+        '295823614667-gn9e44gskhtu9b340lnlsguv9pv0q998.apps.googleusercontent.com',
+      discoveryDocs: [
+        'https://sheets.googleapis.com/$discovery/rest?version=v4',
+      ],
+      scope: 'https://www.googleapis.com/auth/spreadsheets',
+    })
+    .then(function () {
+      // Client initialized, you can now use the Sheets API
+    });
 }
 
 async function main() {
