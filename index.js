@@ -90,7 +90,7 @@ function initClient() {
 
 async function main() {
   // Initialize LIFF app)
-  await liff.init({ liffId: '1657827011-3bE2bORz' });
+  await liff.init({ liffId: '1657915908-OkNe190g' });
   // Try a LIFF function
   switch (liff.getOS()) {
     case 'android':
@@ -108,6 +108,7 @@ async function main() {
       btnSend.style.display = 'block';
       btnClose.style.display = 'block';
       getUserProfile();
+      writeToGoogleSheet();
       getFriendship();
     } else {
       btnLogIn.style.display = 'block';
